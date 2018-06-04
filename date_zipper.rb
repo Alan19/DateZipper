@@ -59,7 +59,7 @@ class ZipFileGenerator
   end
 end
 
-directory_to_zip = "config"
-output_file = "config#{Date.today.strftime("%Y%m%d")}.zip"
+directory_to_zip = "/config"
+output_file = "/config#{Date.today.strftime("%Y%m%d")}.zip"
 zf = ZipFileGenerator.new(directory_to_zip, output_file)
 puts("Zipping successful, created #{output_file}")
