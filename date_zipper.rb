@@ -60,12 +60,7 @@ class ZipFileGenerator
   end
 end
 
-folders_to_copy = [
-    "/config",
-    "/structures",
-    "/scripts",
-    "/resources"
-]
+folders_to_copy = %w(/config /structures /scripts /resources)
 
 directory = File.dirname(__FILE__)
 temp_folder_name = 'foo'
@@ -88,7 +83,7 @@ folders_to_copy.each { |f|
   #Zip configs
   puts "Zipping #{directory + temp_folder_name} to #{output_file}"
   zf = ZipFileGenerator.new("#{directory}/#{temp_folder_name}", output_file)
-  zf.write()
+  zf.write
   FileUtils.rm_rf(temp_folder_name)
 
   puts("Zipping successful, created #{output_file}")
