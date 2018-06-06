@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'zip'
 require 'date'
+require 'fileutils'
 
 # This is a simple example which uses rubyzip to
 # recursively generate a zip file from the contents of
@@ -59,7 +60,16 @@ class ZipFileGenerator
   end
 end
 
-directory_to_zip = "/config"
-output_file = "/config#{Date.today.strftime("%Y%m%d")}.zip"
-zf = ZipFileGenerator.new(directory_to_zip, output_file)
+#Create exterior folder and copy config folder into that folder
+directory_to_zip = "#{File.dirname(__FILE__)}/config"
+output_file = "#{directory_to_zip}#{Date.today.strftime("%Y%m%d")}.zip"
+temp_folder_name = 'foo'
+FileUtils::mkdir_p temp_folder_name
+FileUtils.cp_r(directory_to_zip, temp_folder_name)
+
+#Zip configs
+zf = ZipFileGenerator.new("#{File.dirname(__FILE__)}/#{temp_folder_name}", output_file)
+zf.write()
+FileUtils.rm_rf('foo')
+
 puts("Zipping successful, created #{output_file}")
