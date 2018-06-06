@@ -60,16 +60,41 @@ class ZipFileGenerator
   end
 end
 
-#Create exterior folder and copy config folder into that folder
-directory_to_zip = "#{File.dirname(__FILE__)}/config"
-output_file = "#{directory_to_zip}#{Date.today.strftime("%Y%m%d")}.zip"
+folders_to_copy = [
+    "/config",
+    "/structures",
+    "/scripts",
+    "/resources"
+]
+
+directory = File.dirname(__FILE__)
 temp_folder_name = 'foo'
-FileUtils::mkdir_p temp_folder_name
-FileUtils.cp_r(directory_to_zip, temp_folder_name)
 
-#Zip configs
-zf = ZipFileGenerator.new("#{File.dirname(__FILE__)}/#{temp_folder_name}", output_file)
-zf.write()
-FileUtils.rm_rf('foo')
+folders_to_copy.each { |f|
+  #Delete original folders if present
+  directory_to_zip = directory + f
+  output_file = "#{directory_to_zip}#{Date.today.strftime("%Y%m%d")}.zip"
+  if File.exist?(output_file)
+    FileUtils.rm_rf(temp_folder_name)
+    FileUtils.rm(output_file)
+    puts "Removed #{temp_folder_name} and #{output_file}"
+  end
 
-puts("Zipping successful, created #{output_file}")
+  #Create exterior folder and copy config folder into that folder
+  FileUtils::mkdir_p temp_folder_name
+  puts("Created #{temp_folder_name}")
+  FileUtils.cp_r(directory_to_zip, temp_folder_name)
+
+  #Zip configs
+  puts "Zipping #{directory + temp_folder_name} to #{output_file}"
+  zf = ZipFileGenerator.new("#{directory}/#{temp_folder_name}", output_file)
+  zf.write()
+  FileUtils.rm_rf(temp_folder_name)
+
+  puts("Zipping successful, created #{output_file}")
+}
+
+
+
+
+
