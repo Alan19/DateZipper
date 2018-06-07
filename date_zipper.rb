@@ -62,12 +62,13 @@ end
 
 folders_to_copy = %w(/config /structures /scripts /resources)
 
-directory = File.expand_path("..")
+minecraft_directory = File.expand_path("..")
 temp_folder_name = 'foo'
+current_directory = Dir.pwd
 
 folders_to_copy.each { |f|
   #Delete original folders if present
-  directory_to_zip = directory + f
+  directory_to_zip = minecraft_directory + f
   output_file = "#{directory_to_zip}#{Date.today.strftime("%Y%m%d")}.zip"
   if File.exist?(output_file)
     FileUtils.rm_rf(temp_folder_name)
@@ -81,8 +82,8 @@ folders_to_copy.each { |f|
   FileUtils.cp_r(directory_to_zip, temp_folder_name)
 
   #Zip configs
-  puts "Zipping #{directory + temp_folder_name} to #{output_file}"
-  zf = ZipFileGenerator.new("#{directory}/#{temp_folder_name}", output_file)
+  puts "Zipping #{minecraft_directory + temp_folder_name} to #{output_file}"
+  zf = ZipFileGenerator.new("#{current_directory}/#{temp_folder_name}", output_file)
   zf.write
   FileUtils.rm_rf(temp_folder_name)
 
