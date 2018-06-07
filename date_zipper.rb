@@ -62,7 +62,7 @@ end
 
 folders_to_copy = %w(/config /structures /scripts /resources)
 
-directory = File.dirname(__FILE__)
+directory = File.expand_path("..")
 temp_folder_name = 'foo'
 
 folders_to_copy.each { |f|
