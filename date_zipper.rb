@@ -60,7 +60,14 @@ class ZipFileGenerator
   end
 end
 
+# Default list of folders to copy
 folders_to_copy = %w(/config /structures /scripts /resources)
+
+# Additional folders to copy
+ARGV.each {|arg|
+  folders_to_copy.push(arg)
+  puts("Adding #{arg}")
+}
 
 minecraft_directory = File.expand_path("..")
 temp_folder_name = 'foo'
