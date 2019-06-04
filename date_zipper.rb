@@ -65,7 +65,7 @@ folders_to_copy = %w(/config /structures /scripts /resources)
 
 # Additional folders to copy
 gets.each {|arg|
-  folders_to_copy.push(arg)
+  folders_to_copy.push("/#{arg}")
   puts("Adding #{arg}")
 }
 
